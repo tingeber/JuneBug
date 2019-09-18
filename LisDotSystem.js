@@ -6,11 +6,11 @@ const lineAlpha = 150;
 class LisDotSystem {
   constructor() {
     // lissajous parameters - new shape at each setup
-    this.freqX = map(random(1), 0,1,1,10);
-    this.freqY = map(random(1), 0,1,1,10);
-    this.phi = map(random(1),0,1,-10,10)*15;
-    this.modFreqX = map(random(1),0,1,1,10);
-    this.modFreqY = map(random(1),0,1,1,10);
+    this.freqX = int(random(11));
+    this.freqY = int(random(11));
+    this.phi = int(map(random(1),0,1,-10,10)*15);
+    this.modFreqX = int(random(11));
+    this.modFreqY = int(random(11));
 
     this.dots = [];
 
@@ -33,7 +33,7 @@ class LisDotSystem {
     // nodeCounter = 0;
 
 
-    // filling the nodes and roots vector w Nodes and Roots
+    // filling the dots vector with Dots
     for (let i = 0; i < this.numOfDots; i++) {
         let a = this.numOfDots;
         let angle = map(i, 0, a, 0, TWO_PI);
@@ -46,7 +46,7 @@ class LisDotSystem {
         x = x * 600;
         y = y * 300;
 
-       // packaging x and y into a vector so it can be passed to dots and roots
+       // packaging x and y into a vector so it can be passed to dots
         this.pos = createVector(x,y);
 
         // node setup

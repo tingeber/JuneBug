@@ -15,7 +15,8 @@ class LisDotSystem {
     this.dots = [];
 
     this.isComplete = false;
-    this.nodeCounter = 0;
+    this.numDotsConnected = 0;
+    this.numDotsDestroyed = 0;
     this.timeCompleted = 0;
   }
 
@@ -52,11 +53,6 @@ class LisDotSystem {
         let d = new Dot;
         d.setup(this.pos);
         this.dots.push(d);
-
-        // root setup
-        // Root r;
-        // r.setup(pos);
-        // roots.push_back(r);
     }
 
   }
@@ -72,21 +68,12 @@ class LisDotSystem {
        this.dots[i].jiggle();
    }
 
-   // draws roots
-   // for(int i = 0; i<roots.size(); i++) {
-   //     roots[i].draw();
-
-
    }
 
 
   drawConnections() {
-
-
       var d;
       var a; // distance and alpha
-        // let d;
-        // let a; // distance and alpha
 
     // measuring distance between each node,
     // deciding whether the line is drawn or not based on distance,
@@ -123,20 +110,39 @@ class LisDotSystem {
       let randomDot = floor(random(this.dots.length));
       console.log(randomDot);
 
-      if(this.nodeCounter < this.dots.length) {
-        if (this.dots[randomDot].isConnected == false) {
+      if(this.numDotsConnected < this.dots.length-this.numDotsDestroyed) {
+        if (this.dots[randomDot].isConnected == false && this.dots[randomDot].isDestroyed == false) {
           this.dots[randomDot].isConnected = true;
-          this.nodeCounter+=1;
-          console.log('we connected '+this.nodeCounter+' dots.');
+          this.numDotsConnected+=1;
+          console.log('we connected dot number '+randomDot+'. '+this.numDotsConnected+' dots connected, '+this.numDotsDestroyed+' dots destroyed.');
         } else {
           this.connectRandomDot();
         }
       } else {
         this.isComplete = true;
-        console.log('we connected all the dots.');
+        console.log('All dots are connected or destroyed.');
         this.timeCompleted = millis();
       }
 
+    }
+
+    destroyRandomDot() {
+      let randomDot = floor(random(this.dots.length));
+      console.log(randomDot);
+
+      if(this.numDotsDestroyed < (this.dots.length)-this.numDotsConnected) {
+        if (this.dots[randomDot].isConnected == false && this.dots[randomDot].isDestroyed == false) {
+          this.dots[randomDot].isDestroyed = true;
+          this.numDotsDestroyed+=1;
+          console.log('we killed dot number '+randomDot+'. ' +this.numDotsDestroyed+' dots destroyed, '+this.numDotsConnected+' connected.');
+        } else {
+          this.destroyRandomDot();
+        }
+      } else {
+        this.isComplete = true;
+        console.log('All dots are connected or destroyed.');
+        this.timeCompleted = millis();
+      }
     }
 
 }

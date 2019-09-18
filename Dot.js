@@ -13,6 +13,7 @@ class Dot {
 
      // boolean that defines the state the node is in
      this.isConnected = false;
+     this.isDestroyed = false;
 
      this.offsetX = 0;
      this.offsetY = 0;
@@ -38,12 +39,19 @@ class Dot {
         circle(this.location.x, this.location.y, radius);
     }
 
+    else if (this.isDestroyed) {
+      // fill(200,0,0);
+      // rectMode(CENTER);
+      // rect(this.location.x, this.location.y, 30, 30);
+      dotDestruction(this.location.x, this.location.y);
+    }
+
     // if they're not connected, they're simple dots
     else {
         noStroke();
         fill(255, 100);
         circle(this.location.x, this.location.y, radius);
-        noFill();
+        // noFill();
         // stroke(230);
         // rectMode(CENTER);
         // rect(this.initLoc.x, this.initLoc.y, 20, 20);
@@ -67,10 +75,30 @@ class Dot {
      this.location.x = this.location.x + (this.initLoc.x - this.location.x) * easing;
      this.location.y = this.location.y + (this.initLoc.y - this.location.y) * easing;
    }
+
+   else if (this.isDestroyed) {
+     this.location.set(this.location.x, this.location.y);
+   }
    // otherwise, have them stroll around the screen
    else {
       this.location.add(this.offset);
    }
   }
 
+}
+
+function dotDestruction(x, y) {
+  push();
+  fill(200,0,0);
+  noStroke();
+  beginShape();
+  vertex(x+random(-20,20),y+random(-20,20));
+  vertex(x+random(-20,20),y+random(-20,20));
+  vertex(x+random(-20,20),y+random(-20,20));
+  vertex(x+random(-20,20),y+random(-20,20));
+  vertex(x+random(-20,20),y+random(-20,20));
+  vertex(x+random(-20,20),y+random(-20,20));
+  vertex(x+random(-20,20),y+random(-20,20));
+  vertex(x+random(-20,20),y+random(-20,20));
+  endShape(CLOSE);
 }

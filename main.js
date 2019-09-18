@@ -31,6 +31,12 @@ function mouseClicked() {
   connectDots(5);
 }
 
+function keyTyped() {
+  if (key === 'k') {
+    lisDot.destroyRandomDot();
+  }
+}
+
 function connectDots(dots) {
   for (let i = 0; i < dots; i++) {
     lisDot.connectRandomDot();

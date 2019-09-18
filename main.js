@@ -31,6 +31,10 @@ function mouseClicked() {
   connectDots(5);
 }
 
+function touchStarted() {
+  connectDots(5);
+}
+
 function keyTyped() {
   if (key === 'k') {
     lisDot.destroyRandomDot();

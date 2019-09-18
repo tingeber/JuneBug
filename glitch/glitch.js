@@ -10,6 +10,8 @@ let imgSrc2 = 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD//gA8Q1JFQVRPUj
 function setup() {
     background(0);
     createCanvas(windowW, windowH);
+    let staticImg = loadImage('JuneBugScreenshot.png');
+    let glitchToggle = false;
     loadImage('JuneBugScreenshot.png', function(img) {
         glitch = new Glitch(img);
         isLoaded = true;
@@ -20,9 +22,11 @@ function draw() {
     clear();
     background(0);
 
-    // if (isLoaded) {
-    //     glitch.show();
-    // }
+    if (isLoaded && glitchToggle == true) {
+        glitch.show();
+    } else {
+      // staticImg.
+    }
 
     // fill(255, 255, 255);
     // textSize(14);
@@ -285,10 +289,4 @@ class Glitch {
 
     }
 
-}
-
-function (mousePressed() {
-  if (isLoaded) {
-      glitch.show();
-  }
 }

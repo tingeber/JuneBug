@@ -1,6 +1,6 @@
 const connectionRadius = 350; //was 400
 const connectionRamp = 6;
-const lineAlpha = 150;
+const lineAlpha = 100;
 
 
 class LisDotSystem {

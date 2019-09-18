@@ -22,7 +22,7 @@ function draw() {
     clear();
     background(0);
 
-    if (isLoaded && glitchToggle == true) {
+    if (isLoaded) {
         glitch.show();
     } else {
       // staticImg.

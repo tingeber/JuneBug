@@ -63,7 +63,7 @@ class Dot {
       let easing = 0.1;
       this.location.x = this.location.x + (this.initLoc.x - this.location.x) * easing;
       this.location.y = this.location.y + (this.initLoc.y - this.location.y) * easing;
-      a
+
     } else if (this.isDestroyed) {
       this.location.set(this.location.x, this.location.y);
     }

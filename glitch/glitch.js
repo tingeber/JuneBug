@@ -20,9 +20,9 @@ function draw() {
     clear();
     background(0);
 
-    if (isLoaded) {
-        glitch.show();
-    }
+    // if (isLoaded) {
+    //     glitch.show();
+    // }
 
     // fill(255, 255, 255);
     // textSize(14);
@@ -285,4 +285,10 @@ class Glitch {
 
     }
 
+}
+
+function (mousePressed() {
+  if (isLoaded) {
+      glitch.show();
+  }
 }

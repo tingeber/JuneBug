@@ -6,20 +6,20 @@ var easeCounter = 0;
 
 
 class Dot {
-  constructor(){
+  constructor() {
     // jiggling offsets
     this.xoff = random(100);
     this.yoff = random(100);
 
-     // boolean that defines the state the node is in
-     this.isConnected = false;
-     this.isDestroyed = false;
+    // boolean that defines the state the node is in
+    this.isConnected = false;
+    this.isDestroyed = false;
 
-     this.offsetX = 0;
-     this.offsetY = 0;
+    this.offsetX = 0;
+    this.offsetY = 0;
 
-     this.offset = createVector(0,0);
-     this.initLoc = createVector(0,0);
+    this.offset = createVector(0, 0);
+    this.initLoc = createVector(0, 0);
   }
 
   setup(pos) {
@@ -30,75 +30,63 @@ class Dot {
   }
 
   draw() {
-    if(this.isConnected) {
-        let breathLerp = map(sin(radians(millis()*0.1)), -1, 0.5, 0, 1, true);
-        let white = color(255);
-        let black = color(0,100);
-        let breathDot = lerpColor(white, black, breathLerp);
-        fill(breathDot);
-        circle(this.location.x, this.location.y, radius);
-    }
-
-    else if (this.isDestroyed) {
-      // fill(200,0,0);
-      // rectMode(CENTER);
-      // rect(this.location.x, this.location.y, 30, 30);
+    if (this.isConnected) {
+      let breathLerp = map(sin(radians(millis() * 0.1)), -1, 0.5, 0, 1, true);
+      let white = color(255);
+      let black = color(0, 100);
+      let breathDot = lerpColor(white, black, breathLerp);
+      fill(breathDot);
+      circle(this.location.x, this.location.y, radius);
+    } else if (this.isDestroyed) {
       dotDestruction(this.location.x, this.location.y);
     }
 
     // if they're not connected, they're simple dots
     else {
-        noStroke();
-        fill(255, 100);
-        circle(this.location.x, this.location.y, radius);
-        // noFill();
-        // stroke(230);
-        // rectMode(CENTER);
-        // rect(this.initLoc.x, this.initLoc.y, 20, 20);
+      noStroke();
+      fill(255, 100);
+      circle(this.location.x, this.location.y, radius);
+      // noFill();
+      // stroke(230);
+      // rectMode(CENTER);
+      // rect(this.initLoc.x, this.initLoc.y, 20, 20);
     }
   }
 
   jiggle() {
-    // this.offset.x = map(noise(this.xoff), 0, 1,  -jiggleRoom, jiggleRoom);
-    // this.offset.y = map(noise(this.yoff), 0, 1, -jiggleRoom, jiggleRoom);
-
-    this.offset.set(map(noise(this.xoff), 0, 1,  -jiggleRoom, jiggleRoom, true), map(noise(this.yoff), 0, 1, -jiggleRoom, jiggleRoom, true));
-
-
+    this.offset.set(map(noise(this.xoff), 0, 1, -jiggleRoom, jiggleRoom, true), map(noise(this.yoff), 0, 1, -jiggleRoom, jiggleRoom, true));
     this.xoff += noiseIncrease;
     this.yoff += noiseIncrease;
 
-
     // if nodes are connected, ease them into their default position
-   if(this.isConnected) {
-     let easing = 0.1;
-     this.location.x = this.location.x + (this.initLoc.x - this.location.x) * easing;
-     this.location.y = this.location.y + (this.initLoc.y - this.location.y) * easing;
-   }
-
-   else if (this.isDestroyed) {
-     this.location.set(this.location.x, this.location.y);
-   }
-   // otherwise, have them stroll around the screen
-   else {
+    if (this.isConnected) {
+      let easing = 0.1;
+      this.location.x = this.location.x + (this.initLoc.x - this.location.x) * easing;
+      this.location.y = this.location.y + (this.initLoc.y - this.location.y) * easing;
+      a
+    } else if (this.isDestroyed) {
+      this.location.set(this.location.x, this.location.y);
+    }
+    // otherwise, have them stroll around the screen
+    else {
       this.location.add(this.offset);
-   }
+    }
   }
 
 }
 
 function dotDestruction(x, y) {
   push();
-  fill(200,0,0);
+  fill(200, 0, 0);
   noStroke();
   beginShape();
-  vertex(x+random(-20,20),y+random(-20,20));
-  vertex(x+random(-20,20),y+random(-20,20));
-  vertex(x+random(-20,20),y+random(-20,20));
-  vertex(x+random(-20,20),y+random(-20,20));
-  vertex(x+random(-20,20),y+random(-20,20));
-  vertex(x+random(-20,20),y+random(-20,20));
-  vertex(x+random(-20,20),y+random(-20,20));
-  vertex(x+random(-20,20),y+random(-20,20));
+  vertex(x + random(-20, 20), y + random(-20, 20));
+  vertex(x + random(-20, 20), y + random(-20, 20));
+  vertex(x + random(-20, 20), y + random(-20, 20));
+  vertex(x + random(-20, 20), y + random(-20, 20));
+  vertex(x + random(-20, 20), y + random(-20, 20));
+  vertex(x + random(-20, 20), y + random(-20, 20));
+  vertex(x + random(-20, 20), y + random(-20, 20));
+  vertex(x + random(-20, 20), y + random(-20, 20));
   endShape(CLOSE);
 }

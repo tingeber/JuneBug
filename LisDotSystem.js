@@ -1,12 +1,7 @@
-var isComplete = false;
-var dots = [];
-
-const connectionRadius = 400; //was 400
+const connectionRadius = 350; //was 400
 const connectionRamp = 6;
 const lineAlpha = 150;
 
-var d;
-var a; // distance and alpha
 
 class LisDotSystem {
   constructor() {
@@ -16,6 +11,12 @@ class LisDotSystem {
     this.phi = map(random(1),0,1,-10,10)*15;
     this.modFreqX = map(random(1),0,1,1,10);
     this.modFreqY = map(random(1),0,1,1,10);
+
+    this.dots = [];
+
+    this.isComplete = false;
+    this.nodeCounter = 0;
+    this.timeCompleted = 0;
   }
 
   setup(_numOfDots) {
@@ -50,7 +51,7 @@ class LisDotSystem {
         // node setup
         let d = new Dot;
         d.setup(this.pos);
-        dots.push(d);
+        this.dots.push(d);
 
         // root setup
         // Root r;
@@ -67,8 +68,8 @@ class LisDotSystem {
 
    // draws nodes
    for (let i = 0; i < this.numOfDots; i++) {
-       dots[i].draw();
-       dots[i].jiggle();
+       this.dots[i].draw();
+       this.dots[i].jiggle();
    }
 
    // draws roots
@@ -80,6 +81,10 @@ class LisDotSystem {
 
 
   drawConnections() {
+
+
+      var d;
+      var a; // distance and alpha
         // let d;
         // let a; // distance and alpha
 
@@ -88,31 +93,57 @@ class LisDotSystem {
     // defining opacity of the line drawn
     for (let i1 = 0; i1 < this.numOfDots; i1++) {
         for (let i2 = 0; i2 < i1; i2++) {
-            let p1 = dots[i1].location;
-            let p2 = dots[i2].location;
+            let p1 = this.dots[i1].location;
+            let p2 = this.dots[i2].location;
 
-            // d = dist(p1.x,p1.y,p2.x,p2.y);
-            d = p1.dist(p2);
-            a = pow(1/(d/connectionRadius+1), connectionRamp); // normalised value, gets bigger as distance is closer
 
-            // stroke(0, 0, 0, a*lineAlpha); // max alpha reduced by
-            // line(p1.x, p1.y, p2.x, p2.y);
+            // d =  p5.Vector.dist(p1, p2);
+            d = distSquared(p1.x, p1.y, p2.x, p2.y);
+            // d = Math.sqrt(d);
+            // a = Math.pow(1/(d/connectionRadius+1), connectionRamp); // normalised value, gets bigger as distance is closer
+
 
             // only draw if close enough
-            if (d <= connectionRadius) {
+            if (d <= (connectionRadius * connectionRadius)) {
                 // only draw if one of the two nodes are connected
                 if(
-                   dots[i1].isConnected == true ||
-                   dots[i2].isConnected == true)
+                   this.dots[i1].isConnected == true || this.dots[i2].isConnected == true)
                    {
+                    d = Math.sqrt(d);
+                    a = Math.pow(1/(d/connectionRadius+1), connectionRamp); // normalised value, gets bigger as distance is closer
                     stroke(255, 255, 255, a*lineAlpha); // max alpha reduced by a
                     line(p1.x, p1.y, p2.x, p2.y);
-                    // line(dots[i1].location.x, dots[i1].location.y, dots[i2].location.x, dots[i2].location.y);
                 } // nodes
             } // radius
         } // for loop
     } // for loop
     }
 
+    connectRandomDot() {
+      let randomDot = floor(random(this.dots.length));
+      console.log(randomDot);
 
+      if(this.nodeCounter < this.dots.length) {
+        if (this.dots[randomDot].isConnected == false) {
+          this.dots[randomDot].isConnected = true;
+          this.nodeCounter+=1;
+          console.log('we connected '+this.nodeCounter+' dots.');
+        } else {
+          this.connectRandomDot();
+        }
+      } else {
+        this.isComplete = true;
+        console.log('we connected all the dots.');
+        this.timeCompleted = millis();
+      }
+
+    }
+
+}
+
+
+function distSquared(x1, y1, x2, y2) {
+  let dx = x2 - x1;
+  let dy = y2 - y1;
+  return dx * dx + dy * dy;
 }

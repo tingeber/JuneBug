@@ -1,7 +1,6 @@
 const radius = 5;
-var jiggleRoom = 8;
-const noiseIncrease = 0.1;
-// var isConnected = true;
+var jiggleRoom = 1;
+const noiseIncrease = 0.03;
 var easeCounter = 0;
 
 
@@ -9,30 +8,25 @@ var easeCounter = 0;
 class Dot {
   constructor(){
     // jiggling offsets
-    this.xoff = random(50);
-    this.yoff = random(50);
+    this.xoff = random(100);
+    this.yoff = random(100);
 
      // boolean that defines the state the node is in
-     this.isConnected = true;
+     this.isConnected = false;
 
      this.offsetX = 0;
      this.offsetY = 0;
 
      this.offset = createVector(0,0);
+     this.initLoc = createVector(0,0);
   }
 
   setup(pos) {
     // passed from LisNodeSystem
     this.location = pos;
-    this.initLoc = pos;
+    this.initLoc.set(pos);
 
   }
-
-  // setup(x,y) {
-  //   // passed from LisNodeSystem
-  //   this.location = createVector(x,y);
-  //   this.initLoc = createVector(x,y);
-  // }
 
   draw() {
     if(this.isConnected) {
@@ -46,48 +40,37 @@ class Dot {
 
     // if they're not connected, they're simple dots
     else {
+        noStroke();
         fill(255, 100);
         circle(this.location.x, this.location.y, radius);
+        noFill();
+        // stroke(230);
+        // rectMode(CENTER);
+        // rect(this.initLoc.x, this.initLoc.y, 20, 20);
     }
   }
 
   jiggle() {
-    this.offset.x = map(noise(this.xoff), 0, 1,  -10, 10);
-    this.offset.y = map(noise(this.yoff), 0, 1, -10, 10);
+    // this.offset.x = map(noise(this.xoff), 0, 1,  -jiggleRoom, jiggleRoom);
+    // this.offset.y = map(noise(this.yoff), 0, 1, -jiggleRoom, jiggleRoom);
 
-    // this.offsetX = map(noise(this.xoff), 0, 1,  this.initLoc.x-jiggleRoom, this.initLoc.x+jiggleRoom, true);
-    // this.offsetY = map(noise(this.yoff), 0, 1, this.initLoc.y-jiggleRoom, this.initLoc.y+jiggleRoom, true);
-    this.xoff +=noiseIncrease;
-    this.yoff +=noiseIncrease;
+    this.offset.set(map(noise(this.xoff), 0, 1,  -jiggleRoom, jiggleRoom, true), map(noise(this.yoff), 0, 1, -jiggleRoom, jiggleRoom, true));
+
+
+    this.xoff += noiseIncrease;
+    this.yoff += noiseIncrease;
 
 
     // if nodes are connected, ease them into their default position
    if(this.isConnected) {
-       this.easeToInit();
-       easeCounter++;
+     let easing = 0.1;
+     this.location.x = this.location.x + (this.initLoc.x - this.location.x) * easing;
+     this.location.y = this.location.y + (this.initLoc.y - this.location.y) * easing;
    }
    // otherwise, have them stroll around the screen
    else {
-
-     // let v3 = p5.Vector.add(this.location, this.offset);
-     // this.location.add(this.offsetX, this.offsetY);
-
-     // this.location.x = this.offsetX;
-     // this.location.y = this.offsetY;
-
-     // this.location += this.offset;
-
-      // this.location.x -= this.offsetX;
-      // this.location.y -= this.offsetY;
-
-      // this.location.set(this.location.x+this.offset.x, this.location.y+this.offset.y);
-
       this.location.add(this.offset);
    }
-  }
-
-  easeToInit() {
-    this.location = this.initLoc;
   }
 
 }

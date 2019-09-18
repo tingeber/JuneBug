@@ -1,6 +1,8 @@
-var dots = [];
-// let numOfDots = 200;
-let pos;
+p5.disableFriendlyErrors = true; // disables FES
+
+// var dots = [];
+let numOfDots = 100;
+// let pos;
 var lisDot;
 
 
@@ -27,16 +29,23 @@ function setup() {
   // }
 
   lisDot = new LisDotSystem();
-  lisDot.setup(100);
+  lisDot.setup(numOfDots);
 
 
 }
 
 function draw() {
-  background(30);
+  background(0);
   translate(width/2,height/2);
 
 
   lisDot.draw();
 
+}
+
+
+function mouseClicked() {
+  for(let i=0; i<numOfDots; i++) {
+    dots[i].isConnected = !dots[i].isConnected;
+  }
 }

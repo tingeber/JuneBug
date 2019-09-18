@@ -1,7 +1,7 @@
 var isComplete = false;
 var dots = [];
 
-const connectionRadius = 400;
+const connectionRadius = 400; //was 400
 const connectionRamp = 6;
 const lineAlpha = 150;
 

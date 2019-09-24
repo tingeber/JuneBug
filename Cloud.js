@@ -23,7 +23,7 @@ class Cloud {
 
 
     push();
-    // noStroke();
+    noStroke();
     fill(0,0,0, map(noise(millis()*0.1),0,1,0,100)); // set a pulsing black transparent fill
     circle(this.location.x,this.location.y,400); // draw a circle filled with it
     pop();

@@ -18,6 +18,8 @@ class LisDotSystem {
     this.numDotsConnected = 0;
     this.numDotsDestroyed = 0;
     this.timeCompleted = 0;
+
+    this.clouds = [];
   }
 
   setup(_numOfDots) {
@@ -62,11 +64,19 @@ class LisDotSystem {
    this.drawConnections();
 
 
+   //draws clouds
+   if (this.clouds.length > 0) {
+     for (let i = 0; i < this.clouds.length; i++) {
+       this.clouds[i].draw();
+     }
+   }
+
    // draws nodes
    for (let i = 0; i < this.numOfDots; i++) {
        this.dots[i].draw();
        this.dots[i].jiggle();
    }
+
 
    }
 
@@ -133,6 +143,11 @@ class LisDotSystem {
       if(this.numDotsDestroyed < (this.dots.length)-this.numDotsConnected) {
         if (this.dots[randomDot].isConnected == false && this.dots[randomDot].isDestroyed == false) {
           this.dots[randomDot].isDestroyed = true;
+
+          let c = new Cloud();
+          c.dotDestruction(this.dots[randomDot].location.x, this.dots[randomDot].location.y);
+          this.clouds.push(c);
+
           this.numDotsDestroyed+=1;
           console.log('we killed dot number '+randomDot+'. ' +this.numDotsDestroyed+' dots destroyed, '+this.numDotsConnected+' connected.');
         } else {

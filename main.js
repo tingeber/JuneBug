@@ -14,6 +14,7 @@ function setup() {
   createCanvas(1280, 720);
 
 
+
   lisDot = new LisDotSystem();
   lisDot.setup(numOfDots);
 
@@ -28,7 +29,6 @@ function draw() {
 
 
   if(showGlitched) {
-    // image(glitchOverlayImg,-width/2,-height/2);
     push();
     translate(-width/2,-height/2);
     glitch.show();

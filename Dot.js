@@ -20,6 +20,8 @@ class Dot {
 
     this.offset = createVector(0, 0);
     this.initLoc = createVector(0, 0);
+
+
   }
 
   setup(pos) {
@@ -37,8 +39,14 @@ class Dot {
       let breathDot = lerpColor(white, black, breathLerp);
       fill(breathDot);
       circle(this.location.x, this.location.y, radius);
-    } else if (this.isDestroyed) {
-      dotDestruction(this.location.x, this.location.y);
+    }
+
+    else if (this.isDestroyed) {
+
+
+
+      // this.dotDestruction(this.location.x, this.location.y);
+      // image(this.pg.dotCloud, this.location.x, this.location.y);
     }
 
     // if they're not connected, they're simple dots
@@ -63,7 +71,7 @@ class Dot {
       let easing = 0.1;
       this.location.x = this.location.x + (this.initLoc.x - this.location.x) * easing;
       this.location.y = this.location.y + (this.initLoc.y - this.location.y) * easing;
-      
+
     } else if (this.isDestroyed) {
       this.location.set(this.location.x, this.location.y);
     }
@@ -73,20 +81,6 @@ class Dot {
     }
   }
 
-}
 
-function dotDestruction(x, y) {
-  push();
-  fill(200, 0, 0);
-  noStroke();
-  beginShape();
-  vertex(x + random(-20, 20), y + random(-20, 20));
-  vertex(x + random(-20, 20), y + random(-20, 20));
-  vertex(x + random(-20, 20), y + random(-20, 20));
-  vertex(x + random(-20, 20), y + random(-20, 20));
-  vertex(x + random(-20, 20), y + random(-20, 20));
-  vertex(x + random(-20, 20), y + random(-20, 20));
-  vertex(x + random(-20, 20), y + random(-20, 20));
-  vertex(x + random(-20, 20), y + random(-20, 20));
-  endShape(CLOSE);
+
 }

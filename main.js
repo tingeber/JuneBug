@@ -1,12 +1,13 @@
 p5.disableFriendlyErrors = true; // disables FES
 
 // var dots = [];
-let numOfDots = 100;
+let numOfDots = 120;
 // let pos;
 var lisDot;
 let glitchOverlayImg;
 let showGlitched = false;
 let glitch;
+let glitchCounter = 5;
 
 
 function setup() {
@@ -27,15 +28,17 @@ function draw() {
   background(0);
   translate(width/2,height/2);
 
+  lisDot.draw();
 
-  if(showGlitched) {
+  if(showGlitched || glitchCounter < 5) {
     push();
     translate(-width/2,-height/2);
+    glitchOverlay();
     glitch.show();
     pop();
-  } else {
-    lisDot.draw();
   }
+
+  glitchCounter++;
 
 }
 
@@ -50,18 +53,14 @@ function touchStarted() {
 
 function keyTyped() {
   if (key === 'k') {
+    glitchCounter = 0;
     lisDot.destroyRandomDot();
   }
-  // if (key === 'g') {
-  //   glitchOverlay();
-  //   showGlitched = true;
-  // }
 }
 
 function keyPressed() {
   if (key === 'g') {
-    glitchOverlay();
-    showGlitched = true;
+  showGlitched = true;
   }
 }
 
